@@ -588,6 +588,7 @@ async def vote_create(interaction: discord.Interaction, question: str, options: 
     cur.execute("""
         INSERT INTO polls (guild_id, channel_id, question, created_by)
         VALUES (%s, %s, %s, %s)
+        RETURNING id
     """, (
         str(interaction.guild_id),
         str(interaction.channel_id),
@@ -601,6 +602,7 @@ async def vote_create(interaction: discord.Interaction, question: str, options: 
         cur.execute("""
             INSERT INTO poll_options (poll_id, option_text)
             VALUES (%s, %s)
+            RETURNING id
         """, (poll_id, opt))
         option_rows.append({"id": cur.fetchone()["id"], "option_text": opt})
 
@@ -769,6 +771,7 @@ async def food_add(
     cur.execute("""
         INSERT INTO foods (guild_id, name, normalized_name, location, notes, url, added_by)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
+         RETURNING id
     """, (
         str(interaction.guild_id),
         name.strip(),
@@ -880,6 +883,7 @@ async def trip_create(interaction: discord.Interaction, name: str, total_days: i
     cur.execute("""
         INSERT INTO trips (guild_id, name, total_days, created_by)
         VALUES (%s, %s, %s, %s)
+        RETURNING id
     """, (
         str(interaction.guild_id),
         name.strip(),
@@ -1007,6 +1011,7 @@ async def schedule_add_main(
             location, map_url, notes, created_by
         )
         VALUES (%s, %s, %s, NULL, %s, %s, %s, %s, %s, %s, %s, %s)
+         RETURNING id
     """, (
         str(interaction.guild_id),
         trip_id_int,
@@ -1151,6 +1156,7 @@ async def schedule_add_sub(
             location, map_url, notes, created_by
         )
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+         RETURNING id
     """, (
         str(interaction.guild_id),
         trip_id_int,
