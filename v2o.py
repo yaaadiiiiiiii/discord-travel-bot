@@ -886,7 +886,7 @@ async def trip_create(interaction: discord.Interaction, name: str, total_days: i
         total_days,
         str(interaction.user.id)
     ))
-    trip_id = cur.cur.fetchone()["id"]
+    trip_id = cur.fetchone()["id"]
 
     conn.commit()
     conn.close()
